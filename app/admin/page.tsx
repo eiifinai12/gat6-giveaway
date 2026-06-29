@@ -95,7 +95,7 @@ export default function AdminPage() {
                     <SystemStatus />
                         <WinnersHistory />
                             <AdminSettings />
-                                <QuickActions />
+                                    <QuickActions reload={() => window.location.reload()} />
                                     <DatabaseTools />
                                         <BackupDatabase />
                                             <SystemLogs />

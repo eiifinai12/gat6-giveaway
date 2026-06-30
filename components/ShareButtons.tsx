@@ -8,13 +8,14 @@ import {
 } from "react-icons/fa";
 
 export default function ShareButtons() {
-  const link = typeof window !== "undefined"
-    ? window.location.href
-    : "";
+ const link = "https://gtavigiveaway.netlify.app";
 
   const message = encodeURIComponent(
-    `🎮 Participa para ganar GTA VI Ultimate Edition.\n\n${link}`
-  );
+  `🎮 Participa para ganar GTA VI Ultimate Edition.
+
+👉 Regístrate aquí:
+${link}`
+    );
 
   function copyLink() {
     navigator.clipboard.writeText(link);

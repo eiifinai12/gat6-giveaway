@@ -7,6 +7,7 @@
               import Prize from "@/components/Prize";
               import Footer from "@/components/Footer";
               import MyPosition from "@/components/MyPosition";
+              import ShareButtons from "@/components/ShareButtons";
                 
               export default function Home() {
                 return (
@@ -19,6 +20,7 @@
 
                     <Stats />
                       <MyPosition />
+                        <ShareButtons />
                     <section className="max-w-7xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-8">
                       <RegisterForm />
                       <Ranking />

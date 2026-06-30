@@ -2,7 +2,6 @@
 
 import {
   FaWhatsapp,
-  FaFacebook,
   FaTwitter,
   FaLink,
 } from "react-icons/fa";
@@ -33,15 +32,7 @@ ${link}`
         <FaWhatsapp className="inline mr-2" />
         WhatsApp
       </a>
-
-      <a
-        href={`https://www.facebook.com/sharer/sharer.php?u=${link}`}
-        target="_blank"
-        className="bg-blue-600 hover:bg-blue-500 px-6 py-3 rounded-xl font-bold"
-      >
-        <FaFacebook className="inline mr-2" />
-        Facebook
-      </a>
+    
 
       <a
         href={`https://twitter.com/intent/tweet?text=${message}`}

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 export default function Countdown() {
-  const target = new Date("2026-05-26T20:00:00").getTime();
+    const target = new Date("2026-08-15T20:00:00").getTime();
 
   const [time, setTime] = useState(target - Date.now());
 

@@ -10,7 +10,7 @@ export default function DatabaseTools() {
     const { error } = await supabase
       .from("winners")
       .delete()
-      .neq("id", "");
+        .not("id", "is", null);
 
     if (error) {
       alert(error.message);

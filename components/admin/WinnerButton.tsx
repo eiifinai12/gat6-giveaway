@@ -11,6 +11,7 @@ type Participant = {
   tiktok: string;
   referral_code: string;
   referrals: number;
+  created_at: string;
 };
 
 export default function WinnerButton() {
@@ -30,58 +31,43 @@ export default function WinnerButton() {
       return;
     }
 
-    const pool: Participant[] = [];
-
-    data.forEach((participant) => {
-      const tickets = Math.max(1, participant.referrals + 1);
-
-      for (let i = 0; i < tickets; i++) {
-        pool.push(participant);
+    data.sort((a, b) => {
+      if (b.referrals !== a.referrals) {
+        return b.referrals - a.referrals;
       }
+
+      return (
+        new Date(a.created_at).getTime() -
+        new Date(b.created_at).getTime()
+      );
     });
 
-    let counter = 0;
+    const finalWinner = data[0];
 
-    const interval = setInterval(async () => {
-      const current =
-        pool[Math.floor(Math.random() * pool.length)];
+    setWinner(finalWinner);
 
-      setWinner(current);
+    confetti({
+      particleCount: 250,
+      spread: 180,
+      origin: {
+        y: 0.6,
+      },
+    });
 
-      counter++;
+    await supabase
+      .from("winners")
+      .insert([
+        {
+          participant_id: finalWinner.id,
+          name: finalWinner.name,
+          email: finalWinner.email,
+          tiktok: finalWinner.tiktok,
+          referrals: finalWinner.referrals,
+          referral_code: finalWinner.referral_code,
+        },
+      ]);
 
-      if (counter >= 35) {
-        clearInterval(interval);
-
-        const finalWinner =
-          pool[Math.floor(Math.random() * pool.length)];
-
-        setWinner(finalWinner);
-
-        confetti({
-          particleCount: 250,
-          spread: 180,
-          origin: {
-            y: 0.6,
-          },
-        });
-
-        await supabase
-          .from("winners")
-          .insert([
-            {
-              participant_id: finalWinner.id,
-              name: finalWinner.name,
-              email: finalWinner.email,
-              tiktok: finalWinner.tiktok,
-              referrals: finalWinner.referrals,
-              referral_code: finalWinner.referral_code,
-            },
-          ]);
-
-        setLoading(false);
-      }
-    }, 120);
+    setLoading(false);
   }
 
   return (
@@ -92,9 +78,8 @@ export default function WinnerButton() {
         disabled={loading}
         className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold px-8 py-4 rounded-xl text-xl"
       >
-        {loading ? "🎰 Sorteando..." : "🏆 Elegir Ganador"}
+        {loading ? "🏆 Buscando ganador..." : "🏆 Elegir Ganador"}
       </button>
-
       {winner && (
         <div className="mt-8 rounded-3xl border-2 border-yellow-500 bg-zinc-900 p-8">
 
@@ -137,4 +122,4 @@ Referidos: ${winner.referrals}`
 
     </div>
   );
-    }
+  }
